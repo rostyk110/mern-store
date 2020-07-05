@@ -1,0 +1,3 @@
+module.exports = {
+    mongoURI: 'mongodb+srv://rostyk110:rostyk10@cluster0.mqmgm.mongodb.net/mern?retryWrites=true&w=majority'
+}
