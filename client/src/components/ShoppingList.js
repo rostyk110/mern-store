@@ -14,15 +14,15 @@ function ShoppingList(props) {
 
   return (
       <ListGroup className="list-group">
-          {items.map(({id, name}) => (
-            <ListGroupItem key={id}>
+          {items.map(({_id, name}) => (
+            <ListGroupItem key={_id}>
               {name}
               <Button
                 className="remove-btn"
                 color="danger"
                 size="sm"
                 onClick={() => {
-                  props.deleteItem(id)
+                  props.deleteItem(_id)
                 }}
               >&times;</Button>
             </ListGroupItem>

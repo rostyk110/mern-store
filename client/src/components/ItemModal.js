@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {v4 as uuid} from "uuid";
 import {
   Button,
   Modal,
@@ -39,7 +38,6 @@ function ItemModal(props) {
     e.preventDefault()
 
     const newItem = {
-      id: uuid(),
       name: state.name
     }
 
