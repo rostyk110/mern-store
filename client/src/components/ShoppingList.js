@@ -1,29 +1,18 @@
-import React, {useState} from 'react';
-import {Container, ListGroup, ListGroupItem, Button} from 'reactstrap'
-import {v4 as uuid} from 'uuid';
+import React, {useEffect} from 'react';
+import {ListGroup, ListGroupItem, Button} from 'reactstrap'
 
-function ShoppingList() {
-  const [items, setItems] = useState([
-    {id: uuid(), name: 'Eggs'},
-    {id: uuid(), name: 'Milk'},
-    {id: uuid(), name: 'Steak'},
-    {id: uuid(), name: 'Water'}
-  ])
+import {connect} from 'react-redux'
+import {deleteItems, getItems} from "../redux/actions/itemActions";
+import PropTypes from 'prop-types'
+
+function ShoppingList(props) {
+  const {items} = props.item
+
+  useEffect(() => {
+    props.getItems()
+  }, [items])
 
   return (
-    <Container>
-      <Button
-        color="dark"
-        style={{marginBottom: '2rem'}}
-        onClick={() => {
-          const name = prompt('Enter Item')
-          if (name) {
-            setItems([...items, {id: uuid(), name}])
-          }
-        }}
-      >
-        Add Item
-      </Button>
       <ListGroup className="list-group">
           {items.map(({id, name}) => (
             <ListGroupItem key={id}>
@@ -33,14 +22,28 @@ function ShoppingList() {
                 color="danger"
                 size="sm"
                 onClick={() => {
-                  setItems(items.filter(item => item.id !== id))
+                  props.deleteItem(id)
                 }}
               >&times;</Button>
             </ListGroupItem>
           ))}
       </ListGroup>
-    </Container>
   );
 }
 
-export default ShoppingList;
+ShoppingList.propTypes = {
+  getItems: PropTypes.func.isRequired,
+  deleteItem: PropTypes.func.isRequired,
+  item: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+  item: state.item
+})
+
+const mapDispatchToProps = dispatch => ({
+  getItems: () => dispatch(getItems()),
+  deleteItem: id => dispatch(deleteItems(id))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShoppingList);
