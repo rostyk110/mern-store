@@ -10,14 +10,14 @@ function ShoppingList(props) {
 
   useEffect(() => {
     props.getItems()
-  }, [items])
+  }, [])
 
   return (
       <ListGroup className="list-group">
           {items.map(({_id, name}) => (
             <ListGroupItem key={_id}>
               {name}
-              <Button
+              {props.isAuthenticated && <Button
                 className="remove-btn"
                 color="danger"
                 size="sm"
@@ -25,6 +25,8 @@ function ShoppingList(props) {
                   props.deleteItem(_id)
                 }}
               >&times;</Button>
+              }
+
             </ListGroupItem>
           ))}
       </ListGroup>
@@ -38,7 +40,8 @@ ShoppingList.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  item: state.item
+  item: state.item,
+  isAuthenticated: state.auth.isAuthenticated
 })
 
 const mapDispatchToProps = dispatch => ({
